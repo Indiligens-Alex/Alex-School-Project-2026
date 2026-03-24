@@ -7,3 +7,4 @@
 script = ExtResource("1_pw8ni")
 
 [node name="Filter Settings" parent="." unique_id=1848522655 instance=ExtResource("2_kjdcb")]
+unique_name_in_owner = true

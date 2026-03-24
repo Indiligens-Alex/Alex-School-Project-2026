@@ -1,4 +1,4 @@
-extends Control
+class_name FilterSettings extends Control
 
 signal ip_filter_sent(text_data: String)
 signal port_filter_sent(text_data: String)
@@ -14,14 +14,14 @@ func _ready() -> void:
 	port_text_edit.text_submitted.connect(_on_port_submitted)
 	protocol_text_edit.text_submitted.connect(_on_protocol_submitted)
 
-func _on_ip_submitted(data: String) -> void:
-	ip_filter_sent.emit(data)
-	print("IP: ", data)
+func _on_ip_submitted(ip_data: String) -> void:
+	ip_filter_sent.emit(ip_data)
+	print("IP: ", ip_data)
 
-func _on_port_submitted(data: String) -> void:
-	port_filter_sent.emit(data)
-	print("Port: ", data)
+func _on_port_submitted(port_data: String) -> void:
+	port_filter_sent.emit(port_data)
+	print("Port: ", port_data)
 
-func _on_protocol_submitted(data: String) -> void:
-	protocol_filter_sent.emit(data)
-	print("Protocol: ", data)
+func _on_protocol_submitted(protocol_data: String) -> void:
+	protocol_filter_sent.emit(protocol_data)
+	print("Protocol: ", protocol_data)

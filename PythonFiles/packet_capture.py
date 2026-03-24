@@ -35,6 +35,7 @@ def capture_data():
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 client_socket.settimeout(1)
 
+## Sends data to Godot
 client_socket.sendto("Hello from Python!".encode(), (ip, port))
 
 data, (recv_ip, recv_port) = client_socket.recvfrom(1024)

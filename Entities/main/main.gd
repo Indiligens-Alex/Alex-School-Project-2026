@@ -3,11 +3,6 @@ extends Node
 const UDP_IP: String = "127.0.0.1"
 const UDP_PORT: int = 4242
 
-var filter_ip: String
-var filter_port: String
-var filter_protocol: String
-
-@onready var interpreter_path: String = DIR.path_join("res://PythonFiles/Scripts/python.exe")
 @onready var filter_settings: FilterSettings = %"Filter Settings"
 
 var server: UDPServer = UDPServer.new()
@@ -16,6 +11,10 @@ var peers: Array
 var DIR: String = OS.get_executable_path().get_base_dir()
 var script_path: String = DIR.path_join("res://PythonFiles/capture_data.py")
 
+var filter_ip: String
+var filter_port: String
+var filter_protocol: String
+
 func _ready() -> void:
 	filter_settings.ip_filter_sent.connect(func (data: String) -> void: filter_ip = data)
 	filter_settings.port_filter_sent.connect(func (data: String) -> void: filter_port = data)
@@ -23,7 +22,6 @@ func _ready() -> void:
 
 	server.listen(UDP_PORT)
 	if !OS.has_feature("standalone"): # If NOT exported version
-		interpreter_path = ProjectSettings.globalize_path("res://PythonFiles/Scripts/python.exe")
 		script_path = ProjectSettings.globalize_path("res://PythonFiles/packet_capture.py")
 
 func _process(_delta: float) -> void:
@@ -49,6 +47,6 @@ func execute_py() -> void:
 	#filter_port
 	#filter_protocol
 	#OS.create_process(interpreter_path, [script_path])
-	OS.execute(interpreter_path, [script_path], [])
+	OS.execute("python", [script_path], [])
 
 #exec_py_file()

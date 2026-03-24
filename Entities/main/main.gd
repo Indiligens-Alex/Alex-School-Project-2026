@@ -24,8 +24,7 @@ func _ready() -> void:
 	server.listen(UDP_PORT)
 	if !OS.has_feature("standalone"): # If NOT exported version
 		interpreter_path = ProjectSettings.globalize_path("res://PythonFiles/Scripts/python.exe")
-		script_path = ProjectSettings.globalize_path("res://PythonFiles/capture_data.py")
-	execute_py()
+		script_path = ProjectSettings.globalize_path("res://PythonFiles/packet_capture.py")
 
 func _process(_delta: float) -> void:
 	## While open, the project acts as a server
@@ -42,10 +41,14 @@ func _process(_delta: float) -> void:
 		#for i in range(0, peers.size()):
 			#peers
 
+	if Input.is_action_pressed("ui_home"):
+		execute_py()
+
 func execute_py() -> void:
 	#filter_ip
 	#filter_port
 	#filter_protocol
-	OS.execute(interpreter_path, [script_path])
+	#OS.create_process(interpreter_path, [script_path])
+	OS.execute(interpreter_path, [script_path], [])
 
 #exec_py_file()

@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://c34rs5qbqahhg"]
+
+[ext_resource type="Script" uid="uid://chfxxbj1bgww1" path="res://Entities/UI/filter_settings.gd" id="1_0t4vs"]
+
+[node name="Filter Settings" type="Control" unique_id=1848522655]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0t4vs")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1274229953]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1378288815]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Filters"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer" unique_id=1672621387]
+layout_mode = 2
+
+[node name="IP HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=619934986]
+layout_mode = 2
+
+[node name="IP Label" type="Label" parent="VBoxContainer/VBoxContainer/IP HBoxContainer" unique_id=60357705]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "IP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IP TextEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/IP HBoxContainer" unique_id=565883217]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(164, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Input IP filter"
+
+[node name="Port HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=895593173]
+layout_mode = 2
+
+[node name="Port Label" type="Label" parent="VBoxContainer/VBoxContainer/Port HBoxContainer" unique_id=1291105308]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Port"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Port TextEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/Port HBoxContainer" unique_id=1549244227]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(164, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Port IP filter"
+
+[node name="Protocol HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1302283042]
+layout_mode = 2
+
+[node name="Protocol Label" type="Label" parent="VBoxContainer/VBoxContainer/Protocol HBoxContainer" unique_id=38741919]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Protocol"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Protocol TextEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/Protocol HBoxContainer" unique_id=250557467]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(164, 32)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Protocol IP filter"

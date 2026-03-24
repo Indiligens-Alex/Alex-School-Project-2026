@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="School Project"
-run/main_scene="uid://bjrytijv8l7v1"
+run/main_scene="uid://ba1uyar4lc3ib"
 config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/bg_color=Color(0.04303915, 0.043039158, 0.04303913, 1)
 boot_splash/show_image=false

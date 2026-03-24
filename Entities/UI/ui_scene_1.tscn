@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bjrytijv8l7v1"]
+
+[ext_resource type="Theme" uid="uid://jftjuf62ngkx" path="res://Assets/theme.tres" id="1_30xsp"]
+[ext_resource type="PackedScene" uid="uid://c34rs5qbqahhg" path="res://Entities/UI/filter_settings.tscn" id="3_30xsp"]
+
+[node name="UI Scene 1" type="Control" unique_id=1676305919]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_30xsp")
+
+[node name="Filter Settings" parent="." unique_id=1848522655 instance=ExtResource("3_30xsp")]
+layout_mode = 0

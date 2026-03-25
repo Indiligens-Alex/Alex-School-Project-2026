@@ -1,7 +1,11 @@
 from pydivert import *
-import logging
+
 import os
+import logging
 import socket
+
+from threading import Thread
+from time import sleep
 
 ip: str = "127.0.0.1"
 port: int = 4242
@@ -15,27 +19,36 @@ def del_logs():
         if os.path.exists("D:\\Projects\\Game Projects\\Godot Projects\\School-Project\\PythonFiles\\Logs\\"+i):
            os.remove("D:\\Projects\\Game Projects\\Godot Projects\\School-Project\\PythonFiles\\Logs\\"+i)
 
-def log_files(data: str, ):
+def log_files(data: str):
     global log_num
+
+    logging.basicConfig(filename="D:\\Projects\\Game Projects\\Godot Projects\\School-Project\\PythonFiles\\Logs\\captr_pckt_"+str(log_num)+".log", level=logging.INFO, filemode="w",encoding="utf-8", format="%(message)s")
     logger = logging.getLogger(__name__)
-    # Configure logging with a custom format
-    logging.basicConfig(filename="D:\\Projects\\Game Projects\\Godot Projects\\School-Project\\PythonFiles\\Logs\\captr_pckt_"+str(log_num)+".log", level=logging.INFO, filemode="w", format="%(message)s")
     log_num += 1
-    # Log a message
+    # Log the message
     logger.info(data)
+    for handler in logger.handlers:
+        if isinstance(handler, logging.FileHandler):
+            print(f"Logging to: {handler.baseFilename}")
+    print("GET LOGGED B*TCH")
+    print(log_num)
+    print()
+    print()
+    print()
 
 def capture_packets():
     global curr_packet
     del_logs()
     with WinDivert() as wdiv:
         for packet in wdiv:
-            # print(f"From Packet_capture.py \n{packet}")
+            print(f"From Packet_capture.py \n{packet}")
             curr_packet = packet
-            # wdiv.send(filtered_packet) ## This injects the packet into the netwrok
-            
-            log_files(str(packet))
+            ## TODO Apply filters and other stuff
+
+            wdiv.send(curr_packet) ## This injects the packet into the netwrok
+            log_files(str(curr_packet))
             # print(curr_packet)
-            break
+            # break
 
 def talk_to_godot():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -63,9 +76,7 @@ def packet_loss_percantage(packet):
 
 # talk_to_godot()
 
-from threading import Thread
-from time import sleep
 t = Thread(target=capture_packets, daemon=True)
 t.start()
-exit_timer = 1
+exit_timer = .1
 sleep(exit_timer)

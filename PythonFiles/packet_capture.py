@@ -3,41 +3,39 @@ import logging
 import os
 import socket
 
-ip = "127.0.0.1"
-port = 4242
+ip: str = "127.0.0.1"
+port: int = 4242
 
-curr_packet
-def log_file(data=""):
+log_num: int = 1
+
+curr_packet: Packet
+
+def del_logs(): 
+    for i in os.listdir("D:\\Projects\\Game Projects\\Godot Projects\\School-Project\\PythonFiles\\Logs"):
+        if os.path.exists("D:\\Projects\\Game Projects\\Godot Projects\\School-Project\\PythonFiles\\Logs\\"+i):
+           os.remove("D:\\Projects\\Game Projects\\Godot Projects\\School-Project\\PythonFiles\\Logs\\"+i)
+
+def log_files(data: str, ):
+    global log_num
     logger = logging.getLogger(__name__)
-    # Check if the file exists for overwriting it
-    if os.path.exists("captr_pckt.log"):
-        os.remove("captr_pckt.log")
     # Configure logging with a custom format
-    logging.basicConfig(filename="captr_pckt.log", level=logging.DEBUG, filemode="w", format="%(asctime)s - %(levelname)s - %(message)s")
+    logging.basicConfig(filename="D:\\Projects\\Game Projects\\Godot Projects\\School-Project\\PythonFiles\\Logs\\captr_pckt_"+str(log_num)+".log", level=logging.INFO, filemode="w", format="%(message)s")
+    log_num += 1
     # Log a message
-    logger.debug(data)
-
-def filter_packet(packet):
-    new_ip = input()
-    new_port = input()
-    new_protocol = input()
-    filtered_packet = packet
-    return filtered_packet
-
-def packet_loss_percantage(packet):
-    percantage
-    filtered_packet = packet
-    return filtered_packet
+    logger.info(data)
 
 def capture_packets():
+    global curr_packet
+    del_logs()
     with WinDivert() as wdiv:
         for packet in wdiv:
-            print(f"From Packet_capture.py \n{packet}")
+            # print(f"From Packet_capture.py \n{packet}")
             curr_packet = packet
             # wdiv.send(filtered_packet) ## This injects the packet into the netwrok
-            log_file(str(filtered_packet))
+            
+            log_files(str(packet))
+            # print(curr_packet)
             break
-            time.sleep(1) 
 
 def talk_to_godot():
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -51,9 +49,19 @@ def talk_to_godot():
     data, (recv_ip, recv_port) = client_socket.recvfrom(1024)
     print(f"Received: '{data.decode()}' {recv_ip}:{recv_port}")
 
-talk_to_godot()
+def filter_packet(packet):
+    new_ip = input()
+    new_port = input()
+    new_protocol = input()
+    filtered_packet = packet
+    return filtered_packet
 
+def packet_loss_percantage(packet):
+    percantage = 0
+    filtered_packet = packet
+    return filtered_packet
 
+# talk_to_godot()
 
 from threading import Thread
 from time import sleep

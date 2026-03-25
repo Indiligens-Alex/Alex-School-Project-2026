@@ -2,16 +2,32 @@
 
 [ext_resource type="Script" uid="uid://cigmdx7cosau4" path="res://Entities/main/main.gd" id="1_pw8ni"]
 [ext_resource type="PackedScene" uid="uid://c34rs5qbqahhg" path="res://Entities/UI/filter_settings.tscn" id="2_kjdcb"]
+[ext_resource type="PackedScene" uid="uid://bm3kytk574tvt" path="res://Entities/UI/packet_loss_probability.tscn" id="3_kjdcb"]
 
 [node name="main" type="Node" unique_id=2094110439]
 script = ExtResource("1_pw8ni")
 
-[node name="Filter Settings" parent="." unique_id=1848522655 instance=ExtResource("2_kjdcb")]
+[node name="HFlowContainer" type="HFlowContainer" parent="." unique_id=1053449211]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 202.0
+grow_horizontal = 2
+
+[node name="Filter Settings" parent="HFlowContainer" unique_id=1848522655 instance=ExtResource("2_kjdcb")]
 unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Packet Loss Probability" parent="HFlowContainer" unique_id=404546464 instance=ExtResource("3_kjdcb")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
 
 [node name="Temp_Button" type="Button" parent="." unique_id=1288559355]
+offset_left = 128.0
 offset_top = 168.0
-offset_right = 256.0
+offset_right = 384.0
 offset_bottom = 256.0
 text = "EXECUTE PYTHON PROGRAM"
 

@@ -1,4 +1,4 @@
-extends Control
+class_name PacketLossProbability extends Control
 signal percent_value_changed(value: float)
 
 @onready var spin_box: SpinBox = %SpinBox

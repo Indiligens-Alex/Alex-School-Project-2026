@@ -5,8 +5,8 @@ import socket
 
 ip = "127.0.0.1"
 port = 4242
-break_loop_num = 0
 
+curr_packet
 def log_file(data=""):
     logger = logging.getLogger(__name__)
     # Check if the file exists for overwriting it
@@ -18,23 +18,25 @@ def log_file(data=""):
     logger.debug(data)
 
 def filter_packet(packet):
-    ip = input()
-    port = input()
-    protocol = input()
+    new_ip = input()
+    new_port = input()
+    new_protocol = input()
     filtered_packet = packet
     return filtered_packet
 
-def capture_data():
+def packet_loss_percantage(packet):
+    percantage
+    filtered_packet = packet
+    return filtered_packet
+
+def capture_packets():
     with WinDivert() as wdiv:
         for packet in wdiv:
-            filtered_packet = filter_packet(packet)
             print(f"From Packet_capture.py \n{packet}")
-            wdiv.send(filtered_packet)
+            curr_packet = packet
+            # wdiv.send(filtered_packet) ## This injects the packet into the netwrok
             log_file(str(filtered_packet))
-            # if break_num >= 5:
             break
-            break_num += 1
-            print(break_num)
             time.sleep(1) 
 
 def talk_to_godot():
@@ -50,3 +52,12 @@ def talk_to_godot():
     print(f"Received: '{data.decode()}' {recv_ip}:{recv_port}")
 
 talk_to_godot()
+
+
+
+from threading import Thread
+from time import sleep
+t = Thread(target=capture_packets, daemon=True)
+t.start()
+exit_timer = 1
+sleep(exit_timer)

@@ -8,3 +8,11 @@ script = ExtResource("1_pw8ni")
 
 [node name="Filter Settings" parent="." unique_id=1848522655 instance=ExtResource("2_kjdcb")]
 unique_name_in_owner = true
+
+[node name="Temp_Button" type="Button" parent="." unique_id=1288559355]
+offset_top = 168.0
+offset_right = 256.0
+offset_bottom = 256.0
+text = "EXECUTE PYTHON PROGRAM"
+
+[connection signal="pressed" from="Temp_Button" to="." method="_on_temp_button_pressed"]

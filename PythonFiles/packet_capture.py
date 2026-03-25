@@ -5,6 +5,7 @@ import socket
 
 ip = "127.0.0.1"
 port = 4242
+break_loop_num = 0
 
 def log_file(data=""):
     logger = logging.getLogger(__name__)
@@ -27,17 +28,25 @@ def capture_data():
     with WinDivert() as wdiv:
         for packet in wdiv:
             filtered_packet = filter_packet(packet)
-            # print(f"From Packet_capture.py \n{packet}")
+            print(f"From Packet_capture.py \n{packet}")
             wdiv.send(filtered_packet)
             log_file(str(filtered_packet))
+            # if break_num >= 5:
             break
+            break_num += 1
+            print(break_num)
+            time.sleep(1) 
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-client_socket.settimeout(1)
+def talk_to_godot():
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    client_socket.settimeout(.2)
 
-## Sends data to Godot
-client_socket.sendto("Hello from Python!".encode(), (ip, port))
+    ## Sends data to Godot
+    client_socket.sendto(
+        "Hello from Python!".encode(), ## This is the data that is being sent
+        (ip, port))  ## This is the destinataion, aka Godot
 
-data, (recv_ip, recv_port) = client_socket.recvfrom(1024)
-print(f"Received: '{data.decode()}' {recv_ip}:{recv_port}")
+    data, (recv_ip, recv_port) = client_socket.recvfrom(1024)
+    print(f"Received: '{data.decode()}' {recv_ip}:{recv_port}")
 
+talk_to_godot()

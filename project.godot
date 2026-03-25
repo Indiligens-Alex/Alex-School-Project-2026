@@ -16,6 +16,10 @@ config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/bg_color=Color(0.04303915, 0.043039158, 0.04303913, 1)
 boot_splash/show_image=false
 
+[autoload]
+
+GLOBAL="*uid://c5f05dx0bplsm"
+
 [debug]
 
 gdscript/warnings/untyped_declaration=1

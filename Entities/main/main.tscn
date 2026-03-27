@@ -10,8 +10,10 @@ script = ExtResource("1_pw8ni")
 [node name="HFlowContainer" type="HFlowContainer" parent="." unique_id=1053449211]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 202.0
+offset_bottom = 271.0
 grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
 
 [node name="Filter Settings" parent="HFlowContainer" unique_id=1848522655 instance=ExtResource("2_kjdcb")]
 unique_name_in_owner = true

@@ -1,10 +1,10 @@
 from pydivert import WinDivert, Packet
 from threading import Thread; from time import sleep; import os
 from godot_connection import Godot_Connection
-# from packet_handler import Packet_Capture
 
 class Packet_Capture:
-    def __init__(self):
+    def __init__(self, connection: Godot_Connection):
+        self.connection = connection  
         self.log_num: int = 1
         self.LOG_FOLDER = r"D:\Projects\Game Projects\Godot Projects\School-Project\PythonFiles\Logs"
 
@@ -19,7 +19,7 @@ class Packet_Capture:
         log_path = os.path.join(self.LOG_FOLDER, f"captr_pckt_{self.log_num}.log")
         with open(log_path, "w", encoding="utf-8") as f:
             f.write(data)
-        print("GET LOGGED B*TCH ", self.log_num, "\n")
+        print("GET LOGGED B*TCH ", self.log_num)
         self.log_num += 1
 
     def capture_packets(self, amount: int):
@@ -43,11 +43,6 @@ class Packet_Capture:
     
     def run(self):
         self.del_logs()
-        t = Thread(target=self.capture_packets, args=(5,), daemon=True)
+        t = Thread(target=self.capture_packets, args=(2,), daemon=True)
         t.start()
-        sleep(10) ## Program exit time, cuz it frigging crashes my Parsec
-
-if __name__ == "__main__":
-    p = Packet_Capture()
-    p.run()
-    g = Godot_Connection()
+        sleep(10)

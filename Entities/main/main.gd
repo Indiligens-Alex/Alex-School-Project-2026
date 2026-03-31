@@ -10,10 +10,14 @@ var filter_protocol: String
 var loss_percange: float
 
 func _ready() -> void:
-	OS.create_process("python", [GLOBAL.main_py_path])
-	filter_settings.ip_filter_sent.connect(func (data: String) -> void: filter_ip = data)
-	filter_settings.port_filter_sent.connect(func (data: String) -> void: filter_port = data)
-	filter_settings.protocol_filter_sent.connect(func (data: String) -> void: filter_protocol = data)
+	if OS.is_debug_build():
+		print("CMD args: ", ["/k", "python", GLOBAL.main_py_path])
+		OS.create_process("cmd.exe", ["/k", "python", GLOBAL.main_py_path])
+	else:
+		OS.create_process("python", [GLOBAL.main_py_path])
+	filter_settings.ip_filter_changed.connect(func (data: String) -> void: filter_ip = data)
+	filter_settings.port_filter_changed.connect(func (data: String) -> void: filter_port = data)
+	filter_settings.protocol_filter_changed.connect(func (data: String) -> void: filter_protocol = data)
 	packet_loss_probability.percent_value_changed.connect(func (data: float) -> void: loss_percange = data)
 
 func _process(_delta: float) -> void:
@@ -22,6 +26,8 @@ func _process(_delta: float) -> void:
 		python_peer = GLOBAL.server.take_connection()
 		print("Python connected from: %s:%s" % [python_peer.get_packet_ip(), python_peer.get_packet_port()])
 
+	if python_peer != null:
+		print("python_peer.is_socket_connected ", python_peer.is_socket_connected())
 func send_params_to_python() -> void:
 	if python_peer == null:
 		print("Python not connected yet — can't send params")

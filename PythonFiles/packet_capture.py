@@ -28,7 +28,9 @@ class Packet_Capture:
                 try:
                     packet: Packet = next(wdiv)
 
-                    if (packet.udp is not None) and (packet.dst_port == 4242 or packet.src_port == 4242):
+                    if (packet.udp is not None) and (
+                        packet.dst_port in (4242, 4243) or 
+                        packet.src_port in (4242, 4243)):
                         continue
 
                     self.log_files(str(packet))
@@ -40,9 +42,9 @@ class Packet_Capture:
                 except Exception as e:
                     print(f"Capture error: {e}")
                     break
-    
+
     def run(self):
         self.del_logs()
         t = Thread(target=self.capture_packets, args=(2,), daemon=True)
         t.start()
-        sleep(10)
+        t.join()

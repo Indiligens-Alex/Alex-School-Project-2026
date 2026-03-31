@@ -8,8 +8,6 @@ class Godot_Connection:
         self.python_port: int = 4243
         self.godot_port: int = 4242
 
-
-
         self.connection_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.connection_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.connection_socket.bind((self.ip, self.python_port))

@@ -20,7 +20,6 @@ func _process(_delta: float) -> void:
 	if not is_python_connected and GLOBAL.server.is_connection_available():
 		is_python_connected = true
 		print("Python connected!")
-		send_params_to_python()
 	else:
 		print("No Connection Found")
 
@@ -48,3 +47,7 @@ func execute_py() -> void:
 
 func _on_temp_button_pressed() -> void:
 	execute_py()
+
+
+func _on_send_params__get_packet_button_2_pressed() -> void:
+	pass # Replace with function body.

@@ -1,8 +1,7 @@
 from pydivert import WinDivert, Packet
 from threading import Thread; from time import sleep; import os
-# from network_socket import Godot_Connection
+from godot_connection import Godot_Connection
 # from packet_handler import Packet_Capture
-
 
 class Packet_Capture:
     def __init__(self):
@@ -10,8 +9,8 @@ class Packet_Capture:
         self.LOG_FOLDER = r"D:\Projects\Game Projects\Godot Projects\School-Project\PythonFiles\Logs"
 
     def del_logs(self):
-        for file_name in os.listdir(LOG_FOLDER):
-            full_path = os.path.join(LOG_FOLDER, file_name)
+        for file_name in os.listdir(self.LOG_FOLDER):
+            full_path = os.path.join(self.LOG_FOLDER, file_name)
             if os.path.exists(full_path):
                 os.remove(full_path)
 
@@ -33,7 +32,7 @@ class Packet_Capture:
                         continue
 
                     self.log_files(str(packet))
-                    # wdiv.send(packet) ## This injects the packet into the netwrok
+                    wdiv.send(packet) ## This injects the packet into the netwrok
                     print(f"Captured packet {i + 1} of {amount}")
                     # print(packet)
                     print("Exited loop\n")
@@ -47,3 +46,8 @@ class Packet_Capture:
         t = Thread(target=self.capture_packets, args=(5,), daemon=True)
         t.start()
         sleep(10) ## Program exit time, cuz it frigging crashes my Parsec
+
+if __name__ == "__main__":
+    p = Packet_Capture()
+    p.run()
+    g = Godot_Connection()

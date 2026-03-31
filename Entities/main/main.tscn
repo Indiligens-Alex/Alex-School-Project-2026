@@ -8,10 +8,8 @@
 script = ExtResource("1_pw8ni")
 
 [node name="HFlowContainer" type="HFlowContainer" parent="." unique_id=1053449211]
-anchors_preset = 10
-anchor_right = 1.0
+offset_right = 432.0
 offset_bottom = 271.0
-grow_horizontal = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
 
@@ -29,8 +27,13 @@ size_flags_vertical = 0
 [node name="Temp_Button" type="Button" parent="." unique_id=1288559355]
 offset_left = 128.0
 offset_top = 168.0
-offset_right = 384.0
+offset_right = 336.0
 offset_bottom = 256.0
-text = "EXECUTE PYTHON PROGRAM"
+text = "Send datra to Python & Do simulation calculation"
+autowrap_mode = 3
+
+[node name="Debug_Camera2D" type="Camera2D" parent="." unique_id=1339075278]
+position = Vector2(232, 144)
+zoom = Vector2(2, 2)
 
 [connection signal="pressed" from="Temp_Button" to="." method="_on_temp_button_pressed"]

@@ -36,7 +36,6 @@ class Packet_Capture:
                     self.log_files(str(packet))
                     wdiv.send(packet) ## This injects the packet into the netwrok
                     print(f"Captured packet {i + 1} of {amount}")
-                    # print(packet)
                     print("Exited loop\n")
 
                 except Exception as e:

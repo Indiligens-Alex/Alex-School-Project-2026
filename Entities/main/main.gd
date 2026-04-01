@@ -4,17 +4,17 @@ class_name Main extends Node
 @onready var packet_loss_probability: PacketLossProbability = %"Packet Loss Probability"
 
 var python_peer: PacketPeerUDP
-var filter_ip: String
-var filter_port: String
-var filter_protocol: String
-var loss_percange: float
+var filter_ip: String = "0"
+var filter_port: String = "0"
+var filter_protocol: String = "0"
+var loss_percange: float = 0.0
 
 func _ready() -> void:
 	if OS.is_debug_build():
-		print("CMD args: ", ["/k", "python", GLOBAL.main_py_path])
-		OS.create_process("cmd.exe", ["/k", "python", GLOBAL.main_py_path])
+		OS.create_process("cmd", ["/k", "python", GLOBAL.main_loop_py_path], true)
 	else:
-		OS.create_process("python", [GLOBAL.main_py_path])
+		OS.create_process("python", [GLOBAL.main_loop_py_path])
+
 	filter_settings.ip_filter_changed.connect(func (data: String) -> void: filter_ip = data)
 	filter_settings.port_filter_changed.connect(func (data: String) -> void: filter_port = data)
 	filter_settings.protocol_filter_changed.connect(func (data: String) -> void: filter_protocol = data)
@@ -22,13 +22,12 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	## UDP packet peer, used to send and receive raw UDP packets and Variants.
+	## Connect to the Python file when it sends the first piece of data
 	if python_peer == null and GLOBAL.server.is_connection_available():
 		python_peer = GLOBAL.server.take_connection()
 		print("Python connected from: %s:%s" % [python_peer.get_packet_ip(), python_peer.get_packet_port()])
 
-	if python_peer != null:
-		print("python_peer.is_socket_connected ", python_peer.is_socket_connected())
-func send_params_to_python() -> void:
+func _on_send_params_to_python_button_pressed() -> void:
 	if python_peer == null:
 		print("Python not connected yet — can't send params")
 		return
@@ -41,6 +40,3 @@ func send_params_to_python() -> void:
 		#var packet: PackedByteArray  = peer.get_packet()
 		##print("Packet: %s" % packet)
 		#print("Received Packet Data: %s" % [packet.get_string_from_utf8()])
-
-func _on_send_params_and_get_packet_button_pressed() -> void:
-	send_params_to_python()

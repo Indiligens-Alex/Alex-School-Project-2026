@@ -1,0 +1,28 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Entities/UI/latency_settings.gd" id="1_lat"]
+
+[node name="Latency Settings" type="PanelContainer"]
+offset_right = 233.0
+offset_bottom = 100.0
+script = ExtResource("1_lat")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Latency (ms)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LatencySpinBox" type="SpinBox" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 10000.0
+step = 1.0
+suffix = "ms"

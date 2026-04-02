@@ -3,46 +3,80 @@
 [ext_resource type="Script" uid="uid://cigmdx7cosau4" path="res://Entities/main/main.gd" id="1_pw8ni"]
 [ext_resource type="PackedScene" uid="uid://c34rs5qbqahhg" path="res://Entities/UI/filter_settings.tscn" id="2_kjdcb"]
 [ext_resource type="PackedScene" uid="uid://bm3kytk574tvt" path="res://Entities/UI/packet_loss_probability.tscn" id="3_kjdcb"]
+[ext_resource type="PackedScene" path="res://Entities/UI/latency_settings.tscn" id="4_lat"]
+[ext_resource type="PackedScene" path="res://Entities/UI/jitter_settings.tscn" id="5_jit"]
+[ext_resource type="PackedScene" path="res://Entities/UI/packet_log_display.tscn" id="6_log"]
 
-[node name="main" type="Node" unique_id=2094110439]
+[node name="main" type="Node" unique_id=2081347904]
 script = ExtResource("1_pw8ni")
 
-[node name="HFlowContainer" type="HFlowContainer" parent="." unique_id=1053449211]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.193
-anchor_right = 0.5
-anchor_bottom = 0.193
-offset_left = -352.0
-offset_top = -0.44000244
-offset_right = 352.0
-offset_bottom = 191.56
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=10199371]
+
+[node name="FullScreenControl" type="Control" parent="CanvasLayer" unique_id=209554979]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/FullScreenControl" unique_id=524445299]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/FullScreenControl/MarginContainer" unique_id=13719771]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="InterfaceSelector" type="OptionButton" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=1771060523]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
 size_flags_horizontal = 0
-size_flags_vertical = 4
+
+[node name="SettingsContainer" type="HFlowContainer" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=1779196349]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
 alignment = 1
 
-[node name="Filter Settings" parent="HFlowContainer" unique_id=1848522655 instance=ExtResource("2_kjdcb")]
+[node name="Filter Settings" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/SettingsContainer" unique_id=716888658 instance=ExtResource("2_kjdcb")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
-[node name="Packet Loss Probability" parent="HFlowContainer" unique_id=404546464 instance=ExtResource("3_kjdcb")]
+[node name="Packet Loss Probability" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/SettingsContainer" unique_id=1451780174 instance=ExtResource("3_kjdcb")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 0
 
-[node name="Send_Params_To_Python_Button" type="Button" parent="." unique_id=1288559355]
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.47400004
-anchor_right = 0.5
-anchor_bottom = 0.47400004
-offset_left = -192.0
-offset_top = 0.079956055
-offset_right = 192.0
-offset_bottom = 128.07996
-text = "Send data to Python & Do calculation"
-autowrap_mode = 2
+[node name="Latency Settings" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/SettingsContainer" unique_id=1552679889 instance=ExtResource("4_lat")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
 
-[connection signal="pressed" from="Send_Params_To_Python_Button" to="." method="_on_send_params_to_python_button_pressed"]
+[node name="Jitter Settings" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/SettingsContainer" unique_id=726924383 instance=ExtResource("5_jit")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="StartStopButton" type="Button" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=734823336]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 56)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Start Simulation"
+
+[node name="Packet Log Display" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=1550368968 instance=ExtResource("6_log")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3

@@ -11,7 +11,7 @@ class Godot_Connection:
         self.connection_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.connection_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.connection_socket.bind((self.ip, self.python_port))
-        self.connection_socket.settimeout(0.1)
+        self.connection_socket.settimeout(0.15)
 
         self.filter_ip: str = "0"
         self.filter_port: str = "0"
@@ -19,15 +19,19 @@ class Godot_Connection:
         self.loss_percentage: float = 0.0
         self.running: bool = False
 
+        self.godot_addr = None 
+
         print("Godot_Connection init called — listening on port", self.python_port)
 
     ## Running forever in a background thread, continuously listening to Godot and wating to recieve the Godot Params. This loop checks ~10 times/second, a 0.1s timeout.
     def start_listening_loop(self):
         while self.running:
             try:
-                
+                # This is where timeout happens if nothing is received
                 data, addr = self.connection_socket.recvfrom(1024)
                 message = data.decode("utf-8")
+                self.godot_addr = addr  # remember who sent the packet
+
                 print(f"RAW MESSAGE RECEIVED: {message} from address {addr}")
 
                 for part in message.split(";"):
@@ -41,17 +45,19 @@ class Godot_Connection:
                     elif key == "proto":
                         self.filter_protocol = val
                     elif key == "loss":
-                        self.loss_percentage = float(val)
-
-                print(f"Params received: ip={self.filter_ip} port={self.filter_port} "
-                    f"proto={self.filter_protocol} loss={self.loss_percentage}")
-
+                        try:
+                            self.loss_percentage = float(val)
+                        except ValueError:
+                            print(f"Invalid loss value received: {val}")
+                
+                print(  f"Params received: ip={self.filter_ip} "
+                        f"port={self.filter_port} "
+                        f"proto={self.filter_protocol} "
+                        f"loss={self.loss_percentage}")
             except socket.timeout:
-                # print("socket.timeout")  # normal — nothing arrived this frame, just loop again
-                pass
+                continue ## Nothing arrived this frame, just loop again
 
             except Exception as e:
-                # something unexpected happened — print it but DON'T stop the loop
                 print(f"Listen loop error: {type(e).__name__}: {e}")
 
     # def connect_to_godot(self):
@@ -60,17 +66,27 @@ class Godot_Connection:
 
     ## Sending some data to Godot's SERVER port. Godots' UDPServer is listening on that port.
     def send_to_godot(self, data: str):
-        # Sends processed packet data back to Godot.
-        # godot_addr is set the first time we receive anything from Godot.
-        self.connection_socket.sendto(data.encode("utf-8"), (self.ip, self.godot_port))
-        print(f"Data sent to Godot: {data} to port {self.godot_port}")
+        try:
+            ## If we've already received something from Godot, reply directly to that sender
+            if self.godot_addr is not None:
+                self.connection_socket.sendto(data.encode("utf-8"), self.godot_addr)
+                print(f"Data sent to Godot (reply): {data} -> {self.godot_addr}")
+            else:
+                # Fallback: send to known localhost port
+                self.connection_socket.sendto(data.encode("utf-8"), (self.ip, self.godot_port))
+                print(f"Data sent to Godot: {data} -> {(self.ip, self.godot_port)}")
+
+        except Exception as e:
+            print(f"Send error: {type(e).__name__}: {e}")
 
     ## Starts the listening procces
     def run(self):
         self.running = True
         t = Thread(target=self.start_listening_loop, daemon=True)
         t.start()
+
         print("Listening for Godot messages...")
-        self.send_to_godot("Hello")
+        self.send_to_godot("Hello") ## Connection to Godot
         print("Message sent to godot")
+
         t.join() ## Makes it run in the background and not die when the main thread is gone

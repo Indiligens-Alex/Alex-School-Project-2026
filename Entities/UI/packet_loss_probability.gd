@@ -12,3 +12,8 @@ func _match_values(new_value: float) -> void:
 	spin_box.value = new_value
 	v_slider.value = new_value
 	percent_value_changed.emit(new_value)
+
+func set_editable(enabled: bool) -> void:
+	spin_box.editable = enabled
+	v_slider.editable = enabled
+	modulate.a = 1.0 if enabled else 0.5

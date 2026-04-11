@@ -9,3 +9,7 @@ func _ready() -> void:
 
 func _on_value_changed(new_value: float) -> void:
 	latency_value_changed.emit(new_value)
+
+func set_editable(enabled: bool) -> void:
+	spin_box.editable = enabled
+	modulate.a = 1.0 if enabled else 0.5

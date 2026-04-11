@@ -32,12 +32,14 @@ text = "IP"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="IP TextEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/IP HBoxContainer" unique_id=565883217]
+[node name="IP TextEdit" type="OptionButton" parent="VBoxContainer/VBoxContainer/IP HBoxContainer" unique_id=565883217]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(164, 32)
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "Input IP filter"
+fit_to_longest_item = false
+clip_text = true
+text_overrun_behavior = 3
 
 [node name="Port HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=895593173]
 layout_mode = 2
@@ -50,12 +52,14 @@ text = "Port"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Port TextEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/Port HBoxContainer" unique_id=1549244227]
+[node name="Port TextEdit" type="OptionButton" parent="VBoxContainer/VBoxContainer/Port HBoxContainer" unique_id=1549244227]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(164, 32)
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "Port IP filter"
+fit_to_longest_item = false
+clip_text = true
+text_overrun_behavior = 3
 
 [node name="Protocol HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer" unique_id=1302283042]
 layout_mode = 2
@@ -68,9 +72,11 @@ text = "Protocol"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Protocol TextEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/Protocol HBoxContainer" unique_id=250557467]
+[node name="Protocol TextEdit" type="OptionButton" parent="VBoxContainer/VBoxContainer/Protocol HBoxContainer" unique_id=250557467]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(164, 32)
 layout_mode = 2
 size_flags_horizontal = 3
-placeholder_text = "Protocol IP filter"
+fit_to_longest_item = false
+clip_text = true
+text_overrun_behavior = 3

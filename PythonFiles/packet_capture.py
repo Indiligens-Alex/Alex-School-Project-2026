@@ -116,12 +116,7 @@ class PacketCapture:
         Uses WinDivert to intercept packets, applies errors, sends logs to Godot."""
 
         ## WinDivert filter: capture everything except our own Godot<->Python ports
-        wdiv_filter = (
-            "!("
-            "udp.SrcPort == 4242 or udp.DstPort == 4242 or "
-            "udp.SrcPort == 4243 or udp.DstPort == 4243"
-            ")"
-        )
+        wdiv_filter = "not udp or (udp.SrcPort != 4242 and udp.DstPort != 4242 and udp.SrcPort != 4243 and udp.DstPort != 4243)"
 
         print(f"Opening WinDivert with filter: {wdiv_filter}")
 
@@ -132,8 +127,7 @@ class PacketCapture:
             print(f"Failed to open WinDivert: {e}")
             self.connection.simulation_running = False
             self.connection.send_to_godot(
-                "error=Failed to start capture. Run as Administrator."
-            )
+                "error=Failed to start capture. Run as Administrator.")
             return
 
         print("Capture loop started")
@@ -180,17 +174,16 @@ class PacketCapture:
                     self.total_delayed += 1
                     delay_display = round(delay_ms)
                     self._log_to_file(
-                        "DELAYED", f"{packet_info};delay={delay_display}ms"
-                    )
+                        "DELAYED", f"{packet_info};delay={delay_display}ms")
+                    
                     self.connection.send_to_godot(
-                        f"log=DELAYED;{packet_info};delay={delay_display}"
-                    )
+                        f"log=DELAYED;{packet_info};delay={delay_display}")
+                    
                     ## Re-inject after delay in a separate thread
-                    Thread(
-                        target=self._delayed_send,
-                        args=(packet, delay_s),
-                        daemon=True,
-                    ).start()
+                    Thread( target=self._delayed_send,
+                            args=(packet, delay_s),
+                            daemon=True,).start()
+                
                 else:
                     ## No delay — pass through immediately
                     self.total_passed += 1
@@ -213,8 +206,8 @@ class PacketCapture:
                 f"stats=total:{self.total_captured};"
                 f"dropped:{self.total_dropped};"
                 f"delayed:{self.total_delayed};"
-                f"passed:{self.total_passed}"
-            )
+                f"passed:{self.total_passed}")
+            
             self.connection.send_to_godot(stats_msg)
             self.connection.send_to_godot("status=stopped")
             print(f"Capture loop ended. {stats_msg}")

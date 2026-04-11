@@ -1,25 +1,6 @@
 import sys
-import os
-import ctypes
 from godot_connection import Godot_Connection
 from packet_capture import PacketCapture
-
-
-def is_admin() -> bool:
-    """Check if the current process has Administrator privileges."""
-    try:
-        return ctypes.windll.shell32.IsUserAnAdmin()
-    except Exception:
-        return False
-
-
-def run_as_admin():
-    """Re-launch this script with Administrator privileges (triggers UAC prompt)."""
-    script = os.path.abspath(sys.argv[0])
-    ## ShellExecuteW with "runas" verb triggers the UAC elevation prompt
-    ctypes.windll.shell32.ShellExecuteW(
-        None, "runas", sys.executable, f'"{script}"', None, 1
-    )
 
 
 def main():
@@ -43,11 +24,5 @@ def main():
             capturer.stop()
         sys.exit(0)
 
-
 if __name__ == "__main__":
-    if not is_admin():
-        print("Not running as Administrator — requesting elevation...")
-        run_as_admin()
-        sys.exit(0)  ## Exit the non-admin copy; the elevated one will take over
-    print("Running as Administrator ✓")
     main()

@@ -76,6 +76,9 @@ class Godot_Connection:
 
             except socket.timeout:
                 continue
+            except ConnectionResetError:
+                # Godot UDP port unreachable (Godot is not running). Suppress spam.
+                continue
             except Exception as e:
                 print(f"Listen error: {type(e).__name__}: {e}")
 
@@ -99,8 +102,7 @@ class Godot_Connection:
                 self.connection_socket.sendto(data.encode("utf-8"), self.godot_addr)
             else:
                 self.connection_socket.sendto(
-                    data.encode("utf-8"), (self.ip, self.godot_port)
-                )
+                    data.encode("utf-8"), (self.ip, self.godot_port))
         except Exception as e:
             print(f"Send error: {type(e).__name__}: {e}")
 
@@ -125,11 +127,44 @@ class Godot_Connection:
         except Exception as e:
             print(f"Interface listing error: {e}")
 
+    ## Query active network connections and send to Godot
+    def send_active_connections(self):
+        try:
+            import psutil
+            import socket
+            
+            conns_set = set()
+            for conn in psutil.net_connections(kind='all'):
+                # type is socket.SOCK_STREAM (TCP) or socket.SOCK_DGRAM (UDP)
+                proto = "TCP" if conn.type == socket.SOCK_STREAM else ("UDP" if conn.type == socket.SOCK_DGRAM else "OTHER")
+                
+                if conn.laddr:
+                    conns_set.add(f"{conn.laddr.ip},{conn.laddr.port},{proto}")
+                if conn.raddr:
+                    conns_set.add(f"{conn.raddr.ip},{conn.raddr.port},{proto}")
+            
+            conns_list = list(conns_set)[:200] # clamp size to prevent massive UDP packets
+            if conns_list:
+                msg = "conns=" + "|".join(conns_list)
+                self.send_to_godot(msg)
+        except ImportError:
+            pass
+        except Exception as e:
+            print(f"Active connections error: {e}")
+
+    def connections_poll_loop(self):
+        while self.running:
+            self.send_active_connections()
+            time.sleep(3.0)
+
     ## Starts the listening process (non-blocking — returns the thread)
     def run(self):
         self.running = True
         t = Thread(target=self.start_listening_loop, daemon=True)
         t.start()
+
+        t_conns = Thread(target=self.connections_poll_loop, daemon=True)
+        t_conns.start()
 
         print("Listening for Godot messages...")
         self.send_to_godot("hello")
@@ -137,5 +172,7 @@ class Godot_Connection:
         ## Send available interfaces after a brief delay to let Godot connect
         time.sleep(0.5)
         self.send_interfaces()
+        
+        self.send_active_connections()
 
         return t  ## Return thread so main_loop can join it

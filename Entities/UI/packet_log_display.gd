@@ -23,7 +23,27 @@ func add_log_entry(action: String, details: String) -> void:
 			log_text.push_color(Color.WHITE)
 
 	total_packets += 1
-	log_text.append_text("[%s] %s\n" % [action, details])
+
+	var proto := ""
+	var src := ""
+	var dst := ""
+	var delay := ""
+
+	for part in details.split(";"):
+		if part.begins_with("proto="): proto = part.substr(6)
+		elif part.begins_with("src="): src = part.substr(4)
+		elif part.begins_with("dst="): dst = part.substr(4)
+		elif part.begins_with("delay="): delay = part.substr(6)
+
+	var time_dict = Time.get_time_dict_from_system()
+	var time_str = "%02d:%02d:%02d" % [time_dict.hour, time_dict.minute, time_dict.second]
+
+	var action_str = ("[%s]" % action).rpad(11, " ")
+	var formatted_log = "%s - %s;  %s - src =  %s → dst = %s" % [action_str, time_str, proto, src, dst]
+	if delay != "":
+		formatted_log += " - %sms delay" % delay
+
+	log_text.append_text("%s\n" % formatted_log)
 	log_text.pop()
 	_update_stats()
 

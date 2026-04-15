@@ -94,6 +94,9 @@ class Godot_Connection:
             if self.capturer:
                 self.capturer.stop()
             self.simulation_running = False
+            
+            self.send_interfaces()
+            self.send_active_connections()
 
     ## Sending data to Godot's UDP server
     def send_to_godot(self, data: str):
@@ -112,10 +115,15 @@ class Godot_Connection:
             import psutil
 
             ifaces = psutil.net_if_addrs()
+            stats = psutil.net_if_stats()
             parts = []
             for name, addrs in ifaces.items():
+                if name in stats and not stats[name].isup:
+                    continue
                 for addr in addrs:
                     if addr.family.name == "AF_INET":  ## IPv4 only
+                        if addr.address == "127.0.0.1" or addr.address.startswith("169.254."):
+                            continue
                         parts.append(f"{name}|{addr.address}")
                         break
             if parts:

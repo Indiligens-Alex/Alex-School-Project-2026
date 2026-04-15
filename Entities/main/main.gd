@@ -33,15 +33,15 @@ func _ready() -> void:
 
 	## Filter signals — empty string falls back to "0" (means "no filter" in Python)
 	filter_settings.ip_filter_changed.connect(func(data: String) -> void:
-		filter_ip = data if data != "All IPs" else "0"
+		filter_ip = data  ## Already "0" for All IPs (emitted from metadata)
 		update_filter_dropdowns()
 		_send_params_to_python())
 	filter_settings.port_filter_changed.connect(func(data: String) -> void:
-		filter_port = data if data != "All Ports" else "0"
+		filter_port = data  ## Already "0" for All Ports
 		update_filter_dropdowns()
 		_send_params_to_python())
 	filter_settings.protocol_filter_changed.connect(func(data: String) -> void:
-		filter_protocol = data if data != "All Protocols" else "0"
+		filter_protocol = data  ## Already "0" for All Protocols
 		update_filter_dropdowns()
 		_send_params_to_python())
 
@@ -178,13 +178,18 @@ func _handle_interface_list(iface_data: String) -> void:
 	interface_ips.append("0")
 
 	var entries: PackedStringArray = iface_data.split(",")
+
+	var iface_list = []
 	for entry: String in entries:
 		var pair: PackedStringArray = entry.split("|")
 		if pair.size() == 2:
-			var iface_name: String = pair[0]
-			var iface_ip: String = pair[1]
-			interface_selector.add_item("%s (%s)" % [iface_name, iface_ip])
-			interface_ips.append(iface_ip)
+			iface_list.append({"name": pair[0], "ip": pair[1]})
+
+	iface_list.sort_custom(func(a, b): return a.name.length() < b.name.length())
+
+	for iface in iface_list:
+		interface_selector.add_item("%s (%s)" % [iface.name, iface.ip])
+		interface_ips.append(iface.ip)
 
 	if OS.is_debug_build():
 		print("Interfaces loaded: ", interface_ips.size() - 1, " interfaces found")
@@ -271,7 +276,14 @@ func _populate_option_button(btn: OptionButton, items: Array, selected_val: Stri
 
 	var idx = 1
 	var match_found = false
-	items.sort()
+
+	items.sort_custom(func(a, b):
+		var sa = str(a)
+		var sb = str(b)
+		if sa.length() == sb.length():
+			return sa < sb
+		return sa.length() < sb.length()
+	)
 
 	for item in items:
 		btn.add_item(str(item))

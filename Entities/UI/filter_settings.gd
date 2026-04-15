@@ -15,10 +15,10 @@ func _ready() -> void:
 	protocol_option_button.item_selected.connect(_on_protocol_selected)
 
 func _on_ip_selected(index: int) -> void:
-	ip_filter_changed.emit(ip_option_button.get_item_text(index))
+	ip_filter_changed.emit(str(ip_option_button.get_item_metadata(index)))
 
 func _on_port_selected(index: int) -> void:
-	port_filter_changed.emit(port_option_button.get_item_text(index))
+	port_filter_changed.emit(str(port_option_button.get_item_metadata(index)))
 
 func _on_protocol_selected(index: int) -> void:
-	protocol_filter_changed.emit(protocol_option_button.get_item_text(index))
+	protocol_filter_changed.emit(str(protocol_option_button.get_item_metadata(index)))

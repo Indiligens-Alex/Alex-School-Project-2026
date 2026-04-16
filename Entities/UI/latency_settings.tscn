@@ -1,28 +1,75 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://d11y7sbk0putg"]
 
-[ext_resource type="Script" path="res://Entities/UI/latency_settings.gd" id="1_lat"]
+[ext_resource type="Script" uid="uid://bk51whlp5tqdg" path="res://Entities/UI/latency_settings.gd" id="1_lat"]
 
-[node name="Latency Settings" type="PanelContainer"]
-offset_right = 233.0
-offset_bottom = 100.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 14.0
+bg_color = Color(0.098, 0.118, 0.157, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.169, 0.216, 0.31, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card_header"]
+bg_color = Color(0.082, 0.098, 0.133, 1)
+border_width_bottom = 1
+border_color = Color(0.169, 0.216, 0.31, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[node name="Latency Settings" type="PanelContainer" unique_id=417717611]
+custom_minimum_size = Vector2(210, 0)
+offset_right = 210.0
+offset_bottom = 120.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 script = ExtResource("1_lat")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=634206621]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
+[node name="CardHeader" type="PanelContainer" parent="VBoxContainer" unique_id=1864068173]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card_header")
+
+[node name="Label" type="Label" parent="VBoxContainer/CardHeader" unique_id=131891550]
+custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Latency (ms)"
+theme_override_colors/font_color = Color(0.902, 0.929, 0.98, 1)
+theme_override_font_sizes/font_size = 14
+text = "Latency"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LatencySpinBox" type="SpinBox" parent="VBoxContainer"]
+[node name="ContentMargin" type="MarginContainer" parent="VBoxContainer" unique_id=962572809]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/ContentMargin" unique_id=721958309]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SubLabel" type="Label" parent="VBoxContainer/ContentMargin/VBoxContainer2" unique_id=319782725]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.553, 0.616, 0.737, 1)
+theme_override_font_sizes/font_size = 11
+text = "Added delay (ms)"
+
+[node name="LatencySpinBox" type="SpinBox" parent="VBoxContainer/ContentMargin/VBoxContainer2" unique_id=1696844165]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 10000.0
-step = 1.0
 suffix = "ms"

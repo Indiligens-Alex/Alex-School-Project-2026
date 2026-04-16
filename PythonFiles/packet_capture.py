@@ -126,8 +126,7 @@ class PacketCapture:
         except Exception as e:
             print(f"Failed to open WinDivert: {e}")
             self.connection.simulation_running = False
-            self.connection.send_to_godot(
-                "error=Failed to start capture. Run as Administrator.")
+            self.connection.send_to_godot(f"error=Failed to start capture. Error: {e}")
             return
 
         print("Capture loop started")

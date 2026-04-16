@@ -3,9 +3,71 @@
 [ext_resource type="Script" uid="uid://cigmdx7cosau4" path="res://Entities/main/main.gd" id="1_pw8ni"]
 [ext_resource type="PackedScene" uid="uid://c34rs5qbqahhg" path="res://Entities/UI/filter_settings.tscn" id="2_kjdcb"]
 [ext_resource type="PackedScene" uid="uid://bm3kytk574tvt" path="res://Entities/UI/packet_loss_probability.tscn" id="3_kjdcb"]
-[ext_resource type="PackedScene" path="res://Entities/UI/latency_settings.tscn" id="4_lat"]
+[ext_resource type="PackedScene" uid="uid://d11y7sbk0putg" path="res://Entities/UI/latency_settings.tscn" id="4_lat"]
 [ext_resource type="PackedScene" path="res://Entities/UI/jitter_settings.tscn" id="5_jit"]
 [ext_resource type="PackedScene" path="res://Entities/UI/packet_log_display.tscn" id="6_log"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.098, 0.369, 0.718, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.247, 0.584, 0.961, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0.098, 0.369, 0.718, 0.45)
+shadow_size = 8
+shadow_offset = Vector2(0, 2)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.063, 0.247, 0.514, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.153, 0.455, 0.843, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.145, 0.455, 0.839, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.38, 0.686, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0.145, 0.455, 0.839, 0.55)
+shadow_size = 12
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_disabled"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+bg_color = Color(0.118, 0.137, 0.18, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.188, 0.22, 0.29, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="main" type="Node" unique_id=2081347904]
 script = ExtResource("1_pw8ni")
@@ -27,7 +89,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 1)
+color = Color(0.063, 0.075, 0.098, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/FullScreenControl" unique_id=524445299]
 layout_mode = 1
@@ -36,20 +98,47 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/FullScreenControl/MarginContainer" unique_id=13719771]
 layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HeaderRow" type="HBoxContainer" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=1406654164]
+layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="InterfaceSelector" type="OptionButton" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=1771060523]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 40)
+[node name="TitleBlock" type="VBoxContainer" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/HeaderRow" unique_id=400871643]
 layout_mode = 2
-size_flags_horizontal = 0
+size_flags_horizontal = 3
+
+[node name="AppTitle" type="Label" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/HeaderRow/TitleBlock" unique_id=91058369]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.902, 0.929, 0.98, 1)
+theme_override_font_sizes/font_size = 26
+text = "NetSim Pro"
+
+[node name="AppSubtitle" type="Label" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/HeaderRow/TitleBlock" unique_id=1251177409]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.424, 0.498, 0.627, 1)
+theme_override_font_sizes/font_size = 12
+text = "Network Traffic Simulator"
+
+[node name="InterfaceSelector" type="OptionButton" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/HeaderRow" unique_id=1771060523]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(280, 44)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 13
+
+[node name="Divider" type="ColorRect" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=1169487763]
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+color = Color(0.153, 0.192, 0.267, 1)
 
 [node name="SettingsContainer" type="HFlowContainer" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=1779196349]
 layout_mode = 2
@@ -60,29 +149,37 @@ alignment = 1
 [node name="Filter Settings" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/SettingsContainer" unique_id=716888658 instance=ExtResource("2_kjdcb")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_horizontal = 3
 
 [node name="Packet Loss Probability" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/SettingsContainer" unique_id=1451780174 instance=ExtResource("3_kjdcb")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
 
 [node name="Latency Settings" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/SettingsContainer" unique_id=1552679889 instance=ExtResource("4_lat")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
 
 [node name="Jitter Settings" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer/SettingsContainer" unique_id=726924383 instance=ExtResource("5_jit")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_vertical = 0
+size_flags_horizontal = 3
 
 [node name="StartStopButton" type="Button" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=734823336]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(320, 56)
+custom_minimum_size = Vector2(340, 52)
 layout_mode = 2
 size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.937, 0.957, 1, 1)
+theme_override_colors/font_pressed_color = Color(0.8, 0.9, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.424, 0.498, 0.627, 1)
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_btn_disabled")
 text = "Start Simulation"
 
 [node name="Packet Log Display" parent="CanvasLayer/FullScreenControl/MarginContainer/VBoxContainer" unique_id=1550368968 instance=ExtResource("6_log")]

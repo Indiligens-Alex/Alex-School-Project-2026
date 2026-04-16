@@ -2,27 +2,76 @@
 
 [ext_resource type="Script" path="res://Entities/UI/jitter_settings.gd" id="1_jit"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.098, 0.118, 0.157, 1)
+border_color = Color(0.169, 0.216, 0.31, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 14.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card_header"]
+bg_color = Color(0.082, 0.098, 0.133, 1)
+border_color = Color(0.169, 0.216, 0.31, 1)
+border_width_bottom = 1
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
 [node name="Jitter Settings" type="PanelContainer"]
-offset_right = 233.0
-offset_bottom = 100.0
+custom_minimum_size = Vector2(210, 0)
+offset_right = 210.0
+offset_bottom = 120.0
 script = ExtResource("1_jit")
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
+[node name="CardHeader" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_card_header")
+
+[node name="Label" type="Label" parent="VBoxContainer/CardHeader"]
+custom_minimum_size = Vector2(0, 38)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Jitter (ms)"
+text = "Jitter"
 horizontal_alignment = 1
 vertical_alignment = 1
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.902, 0.929, 0.98, 1)
 
-[node name="JitterSpinBox" type="SpinBox" parent="VBoxContainer"]
+[node name="ContentMargin" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_top = 10
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/ContentMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SubLabel" type="Label" parent="VBoxContainer/ContentMargin/VBoxContainer2"]
+layout_mode = 2
+text = "Variation (ms)"
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.553, 0.616, 0.737, 1)
+
+[node name="JitterSpinBox" type="SpinBox" parent="VBoxContainer/ContentMargin/VBoxContainer2"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 5000.0
 step = 1.0
 suffix = "ms"
+theme_override_font_sizes/font_size = 14

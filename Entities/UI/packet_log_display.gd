@@ -12,15 +12,15 @@ func add_log_entry(action: String, details: String) -> void:
 	match action:
 		"DROPPED":
 			dropped_packets += 1
-			log_text.push_color(Color.RED)
+			log_text.push_color(Color(0.957, 0.365, 0.388, 1))  ## Soft red
 		"DELAYED":
 			delayed_packets += 1
-			log_text.push_color(Color.YELLOW)
+			log_text.push_color(Color(1.0, 0.784, 0.298, 1))  ## Amber
 		"PASSED":
 			passed_packets += 1
-			log_text.push_color(Color.GREEN)
+			log_text.push_color(Color(0.329, 0.816, 0.498, 1))  ## Mint green
 		_:
-			log_text.push_color(Color.WHITE)
+			log_text.push_color(Color(0.702, 0.737, 0.804, 1))  ## Muted blue-white
 
 	total_packets += 1
 

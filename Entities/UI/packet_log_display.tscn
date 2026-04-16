@@ -2,38 +2,112 @@
 
 [ext_resource type="Script" path="res://Entities/UI/packet_log_display.gd" id="1_log"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.078, 0.094, 0.125, 1)
+border_color = Color(0.169, 0.216, 0.31, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card_header"]
+bg_color = Color(0.063, 0.075, 0.102, 1)
+border_color = Color(0.169, 0.216, 0.31, 1)
+border_width_bottom = 1
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stats_bar"]
+bg_color = Color(0.055, 0.067, 0.09, 1)
+border_color = Color(0.169, 0.216, 0.31, 1)
+border_width_bottom = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_log_bg"]
+bg_color = Color(0.047, 0.055, 0.075, 1)
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
 [node name="Packet Log Display" type="PanelContainer"]
 offset_right = 700.0
 offset_bottom = 400.0
 script = ExtResource("1_log")
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
+theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="VBoxContainer"]
-custom_minimum_size = Vector2(0, 32)
+[node name="CardHeader" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-text = "Packet Log"
-horizontal_alignment = 1
-vertical_alignment = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_card_header")
 
-[node name="StatsLabel" type="Label" parent="VBoxContainer"]
+[node name="HeaderRow" type="HBoxContainer" parent="VBoxContainer/CardHeader"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Label" type="Label" parent="VBoxContainer/CardHeader/HeaderRow"]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "  Packet Log"
+horizontal_alignment = 0
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.902, 0.929, 0.98, 1)
+
+[node name="LiveBadge" type="Label" parent="VBoxContainer/CardHeader/HeaderRow"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 4
+text = "LIVE"
+theme_override_font_sizes/font_size = 10
+theme_override_colors/font_color = Color(0.329, 0.816, 0.498, 1)
+
+[node name="RightPad" type="Control" parent="VBoxContainer/CardHeader/HeaderRow"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+
+[node name="StatsBar" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_stats_bar")
+
+[node name="StatsLabel" type="Label" parent="VBoxContainer/StatsBar"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 24)
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-text = "Total: 0  |  Dropped: 0 (0%)  |  Delayed: 0 (0%)  |  Passed: 0 (0%)"
+text = "Total: 0   |   Dropped: 0 (0%)   |   Delayed: 0 (0%)   |   Passed: 0 (0%)"
 horizontal_alignment = 1
 vertical_alignment = 1
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.553, 0.616, 0.737, 1)
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="LogPanel" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_log_bg")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/LogPanel"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LogText" type="RichTextLabel" parent="VBoxContainer/ScrollContainer"]
+[node name="LogText" type="RichTextLabel" parent="VBoxContainer/LogPanel/ScrollContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
 scroll_following = true
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/mono_font_size = 12

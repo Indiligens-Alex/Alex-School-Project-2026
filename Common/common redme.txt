@@ -1,4 +1,0 @@
-Common hold functionality and tools that are not specific to The Game.
-Meaning it does not have dependencies with anything in the game.
-So it can be reused in defferent projects without issue.
-Like State Machines, Resolution scaler, General shaders, Time tracker, etc
